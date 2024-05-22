@@ -1,0 +1,10 @@
+package org.example.helper;
+
+public enum RuleType {
+    SMALL, LOW, HIGH,
+    LIGHT, MEDIUM, HEAVY,
+    HERBIVORE, CARNIVORE, OMNIVORE,
+    NO_SMALL, NO_LOW, NO_HIGH,
+    NO_LIGHT, NO_MEDIUM, NO_HEAVY,
+    NO_HERBIVORE, NO_CARNIVORE, NO_OMNIVORE,
+}
