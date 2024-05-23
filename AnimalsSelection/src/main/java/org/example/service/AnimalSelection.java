@@ -2,48 +2,67 @@ package org.example.service;
 
 
 import org.example.model.Animal;
+import org.example.model.Parameter;
 import org.example.model.Rule;
+import org.example.repository.Rules;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
 public class AnimalSelection {
+    private List<Animal> animals;
+    private List<Rules> rulesList;
+
     public void run() {
         try {
-            animals = new ParserFile().readAnimals();
-            rules = new ParserFile().readRules();
-            for (Animal a: animals
-                 ) {
-                System.out.println(a);
-
-            }
-            for (Rule r: rules
-                 ) {
-                System.out.println(r);
-            }
-        } catch (IOException | URISyntaxException e ) {
+            Parameter parameter = new ParserFile().readParameter();
+            animals = new ParserFile().readAnimals(parameter);
+            rulesList = new ParserFile().readRules(parameter);
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
-//        selection();
+        ConsoleOutput.print(selection());
     }
 
-    private  List<Animal> animals;
-    private  List<Rule> rules;
+    private Map<Rules, Integer> selection() {
+        Map<Rules, Integer> map = new HashMap<>();
+        for (Rules rules : rulesList
+        ) {
+            int count = 0;
+            for (Animal a : animals
+            ) {
+                if (selectionOneAnimal(a, rules)) {
+                    count++;
+                }
+            }
+            map.put(rules, count);
+        }
+        return map;
+    }
+
+    private boolean selectionOneAnimal(Animal animal, Rules rules) {
+        for (Rule rule : rules.getRules()
+        ) {
+            Boolean is;
+            if (rule.getIsIncluded()) {
+                is = selectionConditions(rule.getParameter(), animal);
+            } else {
+                is = selectionExclusions(rule.getParameter(), animal);
+            }
+            if (!is) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Boolean selectionExclusions(String parameter, Animal animal) {
+        return !(animal.getParameters().contains(parameter));
+    }
 
 
-
-//    private void selection() {
-//        Map<Rules, Long> map = new HashMap<>();
-//        for (Rules rule: rules
-//             ) {
-//               Long animalsSelection =  rule.selection(animals);
-//               map.put(rule, animalsSelection);
-//        }
-//        for (Map.Entry<Rules, Long> entry: map.entrySet()
-//             ) {
-//            System.out.println("Rule: " + entry.getKey().getRules());
-//            System.out.println("Selection: " + entry.getValue());
-//        }
-//    }
+    private Boolean selectionConditions(String parameter, Animal animal) {
+        return animal.getParameters().contains(parameter);
+    }
 }

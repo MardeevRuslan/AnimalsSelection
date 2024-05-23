@@ -1,13 +1,15 @@
 package org.example.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 public class Animal {
-    private String height;
-    private String weight;
-    private String type;
+    private final List<String> parameters = new ArrayList<>();
 }

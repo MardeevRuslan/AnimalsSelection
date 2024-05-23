@@ -1,11 +1,13 @@
 package org.example.model;
 
-import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
 public class Rule {
-    private final Map<String, Boolean> rule = new HashMap<>();
+    protected String parameter;
+    protected Boolean isIncluded;
 }
