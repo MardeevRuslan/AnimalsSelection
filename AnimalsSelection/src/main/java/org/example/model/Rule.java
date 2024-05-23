@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Rule {
-    protected String parameter;
-    protected Boolean isIncluded;
+    private SubRule oneRule;
+    private SubRule twoRule;
 }

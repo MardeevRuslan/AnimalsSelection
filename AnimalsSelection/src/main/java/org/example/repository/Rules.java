@@ -17,7 +17,7 @@ public class Rules {
         StringBuilder sb = new StringBuilder();
         for (Rule rule: rules
              ) {
-            sb.append(rule.getParameter()).append(" = ").append(rule.getIsIncluded()).append(" ");
+            sb.append(rule.getOneRule().getParameter()).append(" = ").append(rule.getOneRule().getIsIncluded()).append(" ");
         }
         return sb.toString();
     }

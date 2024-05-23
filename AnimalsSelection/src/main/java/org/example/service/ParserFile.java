@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.model.Animal;
 import org.example.model.Parameter;
 import org.example.model.Rule;
+import org.example.model.SubRule;
 import org.example.repository.Rules;
 
 import java.io.IOException;
@@ -76,17 +77,10 @@ public class ParserFile {
             for (String token : tokens
             ) {
                 Rule rule = new Rule();
-                if (token.contains("NO ")) {
-                    String[] subTokens = token.split(" ");
-                    if (subTokens.length == 2 && checkParameter(parameter, subTokens[1])) {
-                        rule.setParameter(subTokens[1]);
-                        rule.setIsIncluded(false);
-                    }
-                } else if (checkParameter(parameter, token)) {
-                    rule.setParameter(token);
-                    rule.setIsIncluded(true);
+                if (!token.contains(" OR ")) {
+                    rule.setOneRule(createRule(token,parameter));
                 }
-                if (rule.getParameter() != null) {
+                if (rule.getOneRule() != null) {
                     rules.getRules().add(rule);
                 }
             }
@@ -96,6 +90,24 @@ public class ParserFile {
 
         }
         return rulesList;
+    }
+
+    private SubRule createRule(String token, Parameter parameter) {
+        SubRule rule = new SubRule();
+        if (token.contains("NO ")) {
+            String[] subTokens = token.split(" ");
+            if (subTokens.length == 2 && checkParameter(parameter, subTokens[1])) {
+                rule.setParameter(subTokens[1]);
+                rule.setIsIncluded(false);
+            }
+        } else if (checkParameter(parameter, token)) {
+            rule.setParameter(token);
+            rule.setIsIncluded(true);
+        }
+        if (rule.getParameter() == null) {
+            return null;
+        }
+        return rule;
     }
 
     private List<String> readLinesFromResource(String resource) throws IOException, URISyntaxException {

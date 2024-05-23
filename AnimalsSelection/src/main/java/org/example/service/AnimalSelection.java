@@ -30,9 +30,9 @@ public class AnimalSelection {
         for (Rules rules : rulesList
         ) {
             int count = 0;
-            for (Animal a : animals
+            for (Animal animal : animals
             ) {
-                if (selectionOneAnimal(a, rules)) {
+                if (selectionOneAnimal(animal, rules)) {
                     count++;
                 }
             }
@@ -45,10 +45,10 @@ public class AnimalSelection {
         for (Rule rule : rules.getRules()
         ) {
             Boolean is;
-            if (rule.getIsIncluded()) {
-                is = selectionConditions(rule.getParameter(), animal);
+            if (rule.getOneRule().getIsIncluded()) {
+                is = selectionConditions(rule.getOneRule().getParameter(), animal);
             } else {
-                is = selectionExclusions(rule.getParameter(), animal);
+                is = selectionExclusions(rule.getOneRule().getParameter(), animal);
             }
             if (!is) {
                 return false;
