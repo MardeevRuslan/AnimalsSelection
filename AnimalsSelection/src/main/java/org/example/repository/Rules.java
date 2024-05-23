@@ -17,7 +17,14 @@ public class Rules {
         StringBuilder sb = new StringBuilder();
         for (Rule rule: rules
              ) {
-            sb.append(rule.getOneRule().getParameter()).append(" = ").append(rule.getOneRule().getIsIncluded()).append(" ");
+            if (rule.getTwoRule() == null) {
+                sb.append(rule.getOneRule().getParameter()).append(" = ").append(rule.getOneRule().getIsIncluded()).append(" ");
+            } else {
+                sb.append(rule.getOneRule().getParameter()).append(" = ").append(rule.getOneRule().getIsIncluded()).append(" ");
+                sb.append(" OR ");
+                sb.append(rule.getTwoRule().getParameter()).append(" = ").append(rule.getTwoRule().getIsIncluded()).append(" ");
+            }
+
         }
         return sb.toString();
     }

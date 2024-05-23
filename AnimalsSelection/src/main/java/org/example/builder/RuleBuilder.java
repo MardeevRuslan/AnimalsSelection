@@ -16,7 +16,6 @@ public class RuleBuilder extends ModelBuilder {
     public List<Rules> readAnimals(Parameter parameter) throws IOException, URISyntaxException {
         List<Rules> rulesList = new ArrayList<>();
         List<String> rulesData = FileReader.readLinesFromResource("rules.txt");
-
         for (String line : rulesData
         ) {
             Rules rules = new Rules();
@@ -26,6 +25,10 @@ public class RuleBuilder extends ModelBuilder {
                 Rule rule = new Rule();
                 if (!token.contains(" OR ")) {
                     rule.setOneRule(createRule(token,parameter));
+                } else {
+                    String[] subTokens = token.split(" OR ");
+                    rule.setOneRule(createRule(subTokens[0], parameter));
+                    rule.setTwoRule(createRule(subTokens[1],parameter ));
                 }
                 if (rule.getOneRule() != null) {
                     rules.getRules().add(rule);

@@ -48,12 +48,14 @@ public class AnimalSelection {
     private boolean selectionOneAnimal(Animal animal, Rules rules) {
         for (Rule rule : rules.getRules()
         ) {
-            Boolean is;
-            if (rule.getOneRule().getIsIncluded()) {
-                is = selectionConditions(rule.getOneRule().getParameter(), animal);
+            boolean is;
+            if (rule.getTwoRule() == null) {
+                is = selectionOneRule(rule, animal);
             } else {
-                is = selectionExclusions(rule.getOneRule().getParameter(), animal);
+                is = selectionTwoRule(rule, animal);
             }
+
+
             if (!is) {
                 return false;
             }
@@ -61,12 +63,18 @@ public class AnimalSelection {
         return true;
     }
 
-    private Boolean selectionExclusions(String parameter, Animal animal) {
-        return !(animal.getParameters().contains(parameter));
+    private Boolean selectionTwoRule(Rule rule, Animal animal) {
+        return selectionConditions(rule.getOneRule().getParameter(), animal, rule.getOneRule().getIsIncluded()) ||
+                selectionConditions(rule.getTwoRule().getParameter(), animal, rule.getTwoRule().getIsIncluded());
+    }
+
+    private Boolean selectionOneRule(Rule rule, Animal animal) {
+            return selectionConditions(rule.getOneRule().getParameter(), animal, rule.getOneRule().getIsIncluded());
     }
 
 
-    private Boolean selectionConditions(String parameter, Animal animal) {
-        return animal.getParameters().contains(parameter);
+
+    private Boolean selectionConditions(String parameter, Animal animal, Boolean flag) {
+        return animal.getParameters().contains(parameter) == flag;
     }
 }
