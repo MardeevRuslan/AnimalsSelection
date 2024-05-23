@@ -1,6 +1,10 @@
 package org.example.service;
 
 
+import org.example.builder.AnimalsBuilder;
+import org.example.builder.ParametersBuilder;
+import org.example.builder.RuleBuilder;
+import org.example.io.ConsoleOutput;
 import org.example.model.Animal;
 import org.example.model.Parameter;
 import org.example.model.Rule;
@@ -16,9 +20,9 @@ public class AnimalSelection {
 
     public void run() {
         try {
-            Parameter parameter = new ParserFile().readParameter();
-            animals = new ParserFile().readAnimals(parameter);
-            rulesList = new ParserFile().readRules(parameter);
+            Parameter parameter = new ParametersBuilder().readParameter();
+            animals = new AnimalsBuilder().readAnimals(parameter);
+            rulesList = new RuleBuilder().readAnimals(parameter);
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
